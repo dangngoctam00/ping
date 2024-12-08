@@ -40,7 +40,7 @@ veth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 
 1) Ping to ip address `20.1.0.11` via veth `veth1`
-```bash
+```go
 go run main.go 5 20.1.0.11 veth1
 
 ping to: 20.1.0.11, response: ping reply, seq: 1, latency:0.000414
@@ -49,9 +49,30 @@ ping to: 20.1.0.11, response: ping reply, seq: 3, latency:0.000072
 ping to: 20.1.0.11, response: ping reply, seq: 4, latency:0.000069
 ping to: 20.1.0.11, response: ping reply, seq: 5, latency:0.000057
 ```
+Tcpdump result
+```
+tcpdump: data link type LINUX_SLL2
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on any, link-type LINUX_SLL2 (Linux cooked v2), snapshot length 262144 bytes
+12:20:16.928130 veth1 Out IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 1, length 10
+12:20:16.928134 veth2 In  IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 1, length 10
+12:20:16.928180 lo    In  IP 20.1.0.11 > 20.1.0.10: ICMP echo reply, id 1, seq 1, length 10
+12:20:16.928200 veth1 Out IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 2, length 10
+12:20:16.928201 veth2 In  IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 2, length 10
+12:20:16.928210 lo    In  IP 20.1.0.11 > 20.1.0.10: ICMP echo reply, id 1, seq 2, length 10
+12:20:16.928219 veth1 Out IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 3, length 10
+12:20:16.928220 veth2 In  IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 3, length 10
+12:20:16.928229 lo    In  IP 20.1.0.11 > 20.1.0.10: ICMP echo reply, id 1, seq 3, length 10
+12:20:16.928236 veth1 Out IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 4, length 10
+12:20:16.928237 veth2 In  IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 4, length 10
+12:20:16.928250 lo    In  IP 20.1.0.11 > 20.1.0.10: ICMP echo reply, id 1, seq 4, length 10
+12:20:16.928253 veth1 Out IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 5, length 10
+12:20:16.928254 veth2 In  IP 20.1.0.10 > 20.1.0.11: ICMP echo request, id 1, seq 5, length 10
+12:20:16.928255 lo    In  IP 20.1.0.11 > 20.1.0.10: ICMP echo reply, id 1, seq 5, length 10
+```
 
 2) Ping to ip address `20.1.0.12` (unknown address) via `veth1`
-```bash
+```go
 go run main.go 5 20.1.0.12 veth1
 
 ping to: 20.1.0.12, response: destination unreachable, seq: 1, latency:3.102430
